@@ -38,6 +38,10 @@ void APewPewGuy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &APawn::AddControllerYawInput);
 
+	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &APewPewGuy::LookUpRate);
+
+	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &APewPewGuy::LookRightRate);
+
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
 }
@@ -52,8 +56,12 @@ void APewPewGuy::MoveRight(float AxisValue)
 	AddMovementInput(GetActorRightVector() * AxisValue);
 }
 
-// Alternate way of creating the look up movement function
-//void APewPewGuy::LookUp(float AxisValue)
-//{
-//	AddControllerPitchInput(AxisValue);
-//}
+void APewPewGuy::LookUpRate(float AxisValue)
+{
+	AddControllerPitchInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
+
+void APewPewGuy::LookRightRate(float AxisValue)
+{
+	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
