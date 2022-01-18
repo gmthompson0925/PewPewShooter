@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "PewPewGuy.generated.h"
 
+class APewPewThing;
+
 UCLASS()
 class PEWPEWSHOOTER_API APewPewGuy : public ACharacter
 {
@@ -31,7 +33,14 @@ private:
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
+	void Shoot();
 
 	UPROPERTY(EditAnywhere)
 		float RotationRate = 10;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<APewPewThing> PewPewClass;
+
+	UPROPERTY()
+		APewPewThing* PewPew;
 };

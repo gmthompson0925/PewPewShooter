@@ -2,6 +2,7 @@
 
 
 #include "PewPewGuy.h"
+#include "PewPewThing.h"
 
 // Sets default values
 APewPewGuy::APewPewGuy()
@@ -16,6 +17,10 @@ void APewPewGuy::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	PewPew = GetWorld()->SpawnActor<APewPewThing>(PewPewClass);
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	PewPew->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	PewPew->SetOwner(this);
 }
 
 // Called every frame
@@ -44,6 +49,8 @@ void APewPewGuy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 
+	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &APewPewGuy::Shoot);
+
 }
 
 void APewPewGuy::MoveForward(float AxisValue)
@@ -64,4 +71,9 @@ void APewPewGuy::LookUpRate(float AxisValue)
 void APewPewGuy::LookRightRate(float AxisValue)
 {
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
+
+void APewPewGuy::Shoot()
+{
+	PewPew->PullTrigger();
 }
