@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DrawDebugHelpers.h"
 #include "GameFramework/Actor.h"
 #include "PewPewThing.generated.h"
 
@@ -31,4 +32,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* MuzzleFlash;
+
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* ImpactEffect;
+
+	UPROPERTY(EditAnywhere)
+		float MaxRange = 1000;
 };
