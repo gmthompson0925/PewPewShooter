@@ -3,3 +3,8 @@
 
 #include "PewPewShooterGameModeBase.h"
 
+
+void APewPewShooterGameModeBase::PawnKilled(APawn* PawnKilled)
+{
+
+}

@@ -14,4 +14,6 @@ class PEWPEWSHOOTER_API APewPewShooterGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void PawnKilled(APawn* PawnKilled);
 };

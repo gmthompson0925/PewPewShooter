@@ -3,6 +3,8 @@
 
 #include "PewPewGuy.h"
 #include "PewPewThing.h"
+#include "Components/CapsuleComponent.h"
+#include "PewPewShooterGameModeBase.h"
 
 // Sets default values
 APewPewGuy::APewPewGuy()
@@ -61,6 +63,18 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 	DamageToApply = FMath::Min(Health, DamageToApply);
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left: %f"), Health);
+	
+	if (IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		APewPewShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<APewPewShooterGameModeBase>();
+		if (GameMode != nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
+	}
+
 	return DamageToApply;
 }
 
