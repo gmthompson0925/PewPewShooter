@@ -21,5 +21,5 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere)
-		float SightRadius = 200;
+		class UBehaviorTree* AIBehavior;
 };
