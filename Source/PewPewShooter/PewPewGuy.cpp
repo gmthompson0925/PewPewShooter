@@ -66,13 +66,14 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 	
 	if (IsDead())
 	{
-		DetachFromControllerPendingDestroy();
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		APewPewShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<APewPewShooterGameModeBase>();
 		if (GameMode != nullptr)
 		{
 			GameMode->PawnKilled(this);
 		}
+
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
 	return DamageToApply;

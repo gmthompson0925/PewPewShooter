@@ -6,9 +6,7 @@
 #include "PewPewShooterGameModeBase.h"
 #include "KillEmAllGameMode.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class PEWPEWSHOOTER_API AKillEmAllGameMode : public APewPewShooterGameModeBase
 {
@@ -16,4 +14,7 @@ class PEWPEWSHOOTER_API AKillEmAllGameMode : public APewPewShooterGameModeBase
 	
 public:
 	virtual void PawnKilled(APawn* PawnKilled) override;
+
+private:
+	void EndGame(bool bIsPlayerWinner);
 };
