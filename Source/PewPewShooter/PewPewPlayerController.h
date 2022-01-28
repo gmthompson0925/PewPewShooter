@@ -15,7 +15,12 @@ class PEWPEWSHOOTER_API APewPewPlayerController : public APlayerController
 public:
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
+protected:
+	virtual void BeginPlay() override;
+
 private:
+
+	// Creating the button to pick a lose screen in bp_pewpewplayercontroller
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class UUserWidget> LoseScreenClass;
 
@@ -23,7 +28,12 @@ private:
 		TSubclassOf<class UUserWidget> WinScreenClass;
 
 	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UUserWidget> HUDClass;
+
+	UPROPERTY(EditAnywhere)
 		float RestartDelay = 3;
 
 	FTimerHandle RestartTimer;
+
+	UUserWidget* HUD;
 };

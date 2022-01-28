@@ -21,8 +21,13 @@ void APewPewGuy::BeginPlay()
 
 	Health = MaxHealth;
 	
+	// Spawing the player actor
 	PewPew = GetWorld()->SpawnActor<APewPewThing>(PewPewClass);
+
+	// Hiding the weapon socket mesh that was buggy
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+
+	// Creating and attatching a new weapon socket for the player to hold the gun
 	PewPew->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	PewPew->SetOwner(this);
 }
@@ -57,10 +62,15 @@ void APewPewGuy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+// Method to take damage
 float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	// set damge cap to not go past zero into the negatives
 	DamageToApply = FMath::Min(Health, DamageToApply);
+
+	// Take damage from health
 	Health -= DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health left: %f"), Health);
 	
@@ -82,6 +92,11 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 bool APewPewGuy::IsDead() const
 {
 		return Health <=0;
+}
+
+float APewPewGuy::GetHealthPercent() const
+{
+	return Health / MaxHealth;
 }
 
 void APewPewGuy::MoveForward(float AxisValue)
