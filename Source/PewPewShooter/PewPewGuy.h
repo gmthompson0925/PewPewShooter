@@ -40,6 +40,8 @@ public:
 	void Shoot();
 
 private:
+
+	// Movement functions with AxisValue parameter
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);

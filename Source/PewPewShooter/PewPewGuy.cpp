@@ -76,24 +76,32 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 	
 	if (IsDead())
 	{
+		// Getting the pointer to the default game mode
 		APewPewShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<APewPewShooterGameModeBase>();
 		if (GameMode != nullptr)
 		{
+			// with the default GameMode, call Pawn Killed to be this actor
 			GameMode->PawnKilled(this);
 		}
 
+		// Disconnect Player controller to prevent movement upon dying
 		DetachFromControllerPendingDestroy();
+
+		// Allows Player to walk over dead AI
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
+	// Return damge to be taken!!!
 	return DamageToApply;
 }
 
+// Quick method to declare if health is less than 0
 bool APewPewGuy::IsDead() const
 {
 		return Health <=0;
 }
 
+// Turning the health from float to a percentage for the health bar
 float APewPewGuy::GetHealthPercent() const
 {
 	return Health / MaxHealth;
@@ -109,6 +117,8 @@ void APewPewGuy::MoveRight(float AxisValue)
 	AddMovementInput(GetActorRightVector() * AxisValue);
 }
 
+
+// For rates, making sure to multiply by delta to stay consistent with frame rate
 void APewPewGuy::LookUpRate(float AxisValue)
 {
 	AddControllerPitchInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
@@ -119,6 +129,7 @@ void APewPewGuy::LookRightRate(float AxisValue)
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
 }
 
+// Using the spawned actor to shoot the trigger
 void APewPewGuy::Shoot()
 {
 	PewPew->PullTrigger();
