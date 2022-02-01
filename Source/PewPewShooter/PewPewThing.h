@@ -18,6 +18,8 @@ public:
 
 	void PullTrigger();
 
+	void OnReload();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -51,7 +53,15 @@ private:
 	UPROPERTY(EditAnywhere)
 		float Damage = 10;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+		int LoadedAmmo = 15;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+		int AmmoPool = 75;
+
+
 	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
 
 	AController* GetOwnerController() const;
+
 };

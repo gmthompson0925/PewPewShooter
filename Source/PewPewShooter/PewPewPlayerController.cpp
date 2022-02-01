@@ -5,7 +5,7 @@
 #include "TimerManager.h"
 #include "Blueprint/UserWidget.h"
 
-
+// On begin play, we call our refrences to the widgets and add them to the viewport
 void APewPewPlayerController::BeginPlay()
 {
 	Super::BeginPlay();

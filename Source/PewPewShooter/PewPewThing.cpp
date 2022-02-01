@@ -23,17 +23,29 @@ APewPewThing::APewPewThing()
 // method to pull gun trigger
 void APewPewThing::PullTrigger()
 {
+	// Ammo system
+	if (LoadedAmmo <= 0)
+	{
+		// play empty clip sound
+		return;
+	}
+	else
+	{
+		LoadedAmmo = LoadedAmmo - 1;
+	}
+
 	// spawning particle effect off of the muzzle socket of the gun
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
 
 	// spawning muzzle sound wave off of muzzle socket
 	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
+
 	// adding Hit result and direction vector for parameters
 	FHitResult Hit;
 	FVector ShotDirection;
 
-	// initializing bool to track if a successful hit using GunTrace method
+	// initializing bSuccessHit to track if a successful hit using GunTrace method
 	bool bSuccessHit = GunTrace(Hit, ShotDirection);
 
 
@@ -60,6 +72,29 @@ void APewPewThing::PullTrigger()
 			// Using HitActor pointer with arrow to call a TakeDamage function, utilizing previous lines as params
 			HitActor->TakeDamage(Damage, DamageEvent, OwnerController, this);
 		}
+	}
+}
+
+// method to reload gun
+void APewPewThing::OnReload()
+{
+	// Is there Ammo in the pool?
+	if (AmmoPool <= 0 || LoadedAmmo >= 30)
+	{
+		return;
+	}
+
+	// Check if we need ammo from the pool and load the gun
+	if (AmmoPool < (15 - LoadedAmmo))
+	{
+		LoadedAmmo = LoadedAmmo + AmmoPool;
+		AmmoPool = 0;
+	}
+	// Otherwise, update the ammo pool
+	else
+	{
+		AmmoPool = AmmoPool - (15 - LoadedAmmo);
+		LoadedAmmo = 15;
 	}
 }
 

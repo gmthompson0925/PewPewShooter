@@ -5,6 +5,7 @@
 #include "PewPewThing.h"
 #include "Components/CapsuleComponent.h"
 #include "PewPewShooterGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APewPewGuy::APewPewGuy()
@@ -60,6 +61,8 @@ void APewPewGuy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &APewPewGuy::Shoot);
 
+	PlayerInputComponent->BindAction(TEXT("Reload"), EInputEvent::IE_Pressed, this, &APewPewGuy::Reload);
+
 }
 
 // Method to take damage
@@ -83,6 +86,9 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 			// with the default GameMode, call Pawn Killed to be this actor
 			GameMode->PawnKilled(this);
 		}
+
+		// Play death sound
+		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DeathSound, PewPew->GetActorLocation());
 
 		// Disconnect Player controller to prevent movement upon dying
 		DetachFromControllerPendingDestroy();
@@ -133,4 +139,10 @@ void APewPewGuy::LookRightRate(float AxisValue)
 void APewPewGuy::Shoot()
 {
 	PewPew->PullTrigger();
+}
+
+// Using spawned actor to reload the gun
+void APewPewGuy::Reload()
+{
+	PewPew->OnReload();
 }

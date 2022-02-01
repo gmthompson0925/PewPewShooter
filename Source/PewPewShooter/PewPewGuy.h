@@ -39,6 +39,8 @@ public:
 
 	void Shoot();
 
+	void Reload();
+
 private:
 
 	// Movement functions with AxisValue parameter
@@ -58,6 +60,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<APewPewThing> PewPewClass;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* DeathSound;
 
 	UPROPERTY()
 		APewPewThing* PewPew;
