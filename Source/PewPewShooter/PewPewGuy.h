@@ -41,6 +41,9 @@ public:
 
 	void Reload();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		APewPewThing* PewPew;
+
 private:
 
 	// Movement functions with AxisValue parameter
@@ -63,8 +66,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		USoundBase* DeathSound;
-
-	UPROPERTY()
-		APewPewThing* PewPew;
 
 };

@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "PewPewShooterGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 // Sets default values
 APewPewGuy::APewPewGuy()
@@ -22,7 +23,7 @@ void APewPewGuy::BeginPlay()
 
 	Health = MaxHealth;
 	
-	// Spawing the player actor
+	// Spawing the player gun
 	PewPew = GetWorld()->SpawnActor<APewPewThing>(PewPewClass);
 
 	// Hiding the weapon socket mesh that was buggy
@@ -87,14 +88,15 @@ float APewPewGuy::TakeDamage(float DamageAmount, struct FDamageEvent const& Dama
 			GameMode->PawnKilled(this);
 		}
 
-		// Play death sound
-		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DeathSound, PewPew->GetActorLocation());
-
 		// Disconnect Player controller to prevent movement upon dying
 		DetachFromControllerPendingDestroy();
 
 		// Allows Player to walk over dead AI
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		//Play death sound at player location
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
+
 	}
 
 	// Return damge to be taken!!!

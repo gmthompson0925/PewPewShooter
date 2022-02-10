@@ -9,12 +9,6 @@
 void APewPewPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	HUD = CreateWidget(this, HUDClass);
-	if (HUD != nullptr)
-	{
-		HUD->AddToViewport();
-	}
 }
 
 void APewPewPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)
@@ -22,8 +16,8 @@ void APewPewPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsW
 	// Always call Super for overriden classes!!!
 	Super::GameHasEnded(EndGameFocus, bIsWinner);
 
-	// Remove HUD widget once GameHasEnded has been called
-	HUD->RemoveFromViewport();
+	HUDRef->RemoveFromViewport();
+	CrosshairRef->RemoveFromViewport();
 
 	// if we won,
 	if (bIsWinner)

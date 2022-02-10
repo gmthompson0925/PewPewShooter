@@ -15,6 +15,11 @@ class PEWPEWSHOOTER_API APewPewPlayerController : public APlayerController
 public:
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UUserWidget* HUDRef;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UUserWidget* CrosshairRef;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -27,13 +32,10 @@ private:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class UUserWidget> WinScreenClass;
 
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class UUserWidget> HUDClass;
 
 	UPROPERTY(EditAnywhere)
 		float RestartDelay = 3;
 
-	FTimerHandle RestartTimer;
 
-	UUserWidget* HUD;
+	FTimerHandle RestartTimer;
 };
